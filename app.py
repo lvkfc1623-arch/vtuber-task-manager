@@ -1,63 +1,74 @@
-import os
 import json
-from flask import Flask, render_template, request, redirect
+from pathlib import Path
+from flask import Flask, render_template, request, redirect, url_for
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
-DATA_FILE = os.path.join(BASE_DIR, "tasks.json")
+app = Flask(__name__)
 
-app = Flask(__name__, template_folder=TEMPLATE_DIR)
+DATA_FILE = Path(__file__).with_name("tasks.json")
+
 
 def load_tasks():
-    if not os.path.exists(DATA_FILE):
+    if not DATA_FILE.exists():
+        DATA_FILE.write_text("[]", encoding="utf-8")
         return []
+
     try:
-        with open(DATA_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
+        data = json.loads(DATA_FILE.read_text(encoding="utf-8"))
+        return data if isinstance(data, list) else []
+    except (json.JSONDecodeError, UnicodeDecodeError, OSError):
         return []
+
 
 def save_tasks(tasks):
-    with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(tasks, f, ensure_ascii=False, indent=2)
+    DATA_FILE.write_text(
+        json.dumps(tasks, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
 
-tasks = load_tasks()  # 起動時ロード
 
-@app.route("/", methods=["GET", "POST"])
+@app.get("/")
 def index():
-    global tasks
-    if request.method == "POST":
-        text = request.form.get("task")
-        if text:
-            tasks.append({"text": text, "done": False})
-            save_tasks(tasks)
-        return redirect("/")
+    tasks = load_tasks()
     return render_template("index.html", tasks=tasks)
 
+
+@app.post("/add")
+def add():
+    text = (request.form.get("task") or "").strip()
+    if text:
+        tasks = load_tasks()
+        tasks.append({"text": text, "done": False})
+        save_tasks(tasks)
+    return redirect(url_for("index"))
+
+
+@app.post("/toggle/<int:task_id>")
+def toggle(task_id: int):
+    tasks = load_tasks()
+    if 0 <= task_id < len(tasks):
+        tasks[task_id]["done"] = not bool(tasks[task_id].get("done", False))
+        save_tasks(tasks)
+    return redirect(url_for("index"))
+
+
 @app.post("/delete/<int:task_id>")
-def delete(task_id):
-    global tasks
+def delete(task_id: int):
+    tasks = load_tasks()
     if 0 <= task_id < len(tasks):
         tasks.pop(task_id)
         save_tasks(tasks)
-    return redirect("/")
+    return redirect(url_for("index"))
 
-@app.post("/toggle/<int:task_id>")
-def toggle(task_id):
-    global tasks
-    if 0 <= task_id < len(tasks):
-        tasks[task_id]["done"] = not tasks[task_id]["done"]
-        save_tasks(tasks)
-    return redirect("/")
 
 @app.post("/edit/<int:task_id>")
-def edit(task_id):
-    global tasks
-    new_text = request.form.get("task")
+def edit(task_id: int):
+    new_text = (request.form.get("task") or "").strip()
+    tasks = load_tasks()
     if 0 <= task_id < len(tasks) and new_text:
         tasks[task_id]["text"] = new_text
         save_tasks(tasks)
-    return redirect("/")
+    return redirect(url_for("index"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

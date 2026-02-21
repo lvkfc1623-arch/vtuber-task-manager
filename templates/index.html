@@ -3,66 +3,66 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>VTuber Task Manager</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-
-<!doctype html>
-<html lang="ja">
-
-<head>
-    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VTuber Task Manager</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>VTuber Task Manager</h1>
-            <p class="sub">配信・動画・SNS投稿などの運営タスクをまとめて管理</p>
-        </header>
+    <h1>VTuber Task Manager</h1>
+    <p class="subtitle">配信・動画・SNS投稿などの運営タスクをまとめて管理</p>
 
-        <section class="card">
-            <form class="add-form" method="post">
-                <input class="input" name="task" placeholder="例：サムネ発注 / 配信告知ポスト / 編集チェック" />
-                <button class="btn primary" type="submit">追加</button>
+    <form class="add-form" action="{{ url_for('add') }}" method="post">
+        <input name="task" placeholder="タスクを入力" required maxlength="80" />
+        <button type="submit">追加</button>
+    </form>
+
+    <p class="count">タスク数：{{ tasks|length }}</p>
+
+    <h2>未完了</h2>
+    <ul class="task-list">
+        {% for t in tasks %}
+        {% if not t.done %}
+        <li class="task">
+            <form class="inline" action="{{ url_for('toggle', task_id=loop.index0) }}" method="post">
+                <button class="icon" type="submit" title="完了/未完了">⬜</button>
             </form>
-        </section>
 
-        <section class="card">
-            <div class="toolbar">
-                <span class="count">タスク数：{{ tasks|length }}</span>
-            </div>
+            <span class="text">{{ t.text }}</span>
 
-            <ul class="list">
-                {% for t in tasks %}
-                <li class="item {% if t.done %}done{% endif %}">
-                    <form method="post" action="/toggle/{{ loop.index0 }}">
-                        <button class="btn ghost" type="submit" aria-label="toggle">
-                            {% if t.done %}✅{% else %}⬜{% endif %}
-                        </button>
-                    </form>
+            <form class="inline edit" action="{{ url_for('edit', task_id=loop.index0) }}" method="post">
+                <input name="task" value="{{ t.text }}" maxlength="80" />
+                <button type="submit">保存</button>
+            </form>
 
-                    <form class="edit-form" method="post" action="/edit/{{ loop.index0 }}">
-                        <input class="edit" name="task" value="{{ t.text }}">
-                        <button class="btn" type="submit">保存</button>
-                    </form>
+            <form class="inline" action="{{ url_for('delete', task_id=loop.index0) }}" method="post">
+                <button class="danger" type="submit">削除</button>
+            </form>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
 
-                    <form method="post" action="/delete/{{ loop.index0 }}">
-                        <button class="btn danger" type="submit">削除</button>
-                    </form>
-                </li>
-                {% endfor %}
-            </ul>
-        </section>
+    <h2>完了</h2>
+    <ul class="task-list">
+        {% for t in tasks %}
+        {% if t.done %}
+        <li class="task done">
+            <form class="inline" action="{{ url_for('toggle', task_id=loop.index0) }}" method="post">
+                <button class="icon" type="submit" title="完了/未完了">✅</button>
+            </form>
 
-        <footer class="footer">
-            <small>Portfolio: Flask / Jinja / JSON保存</small>
-        </footer>
-    </div>
+            <span class="text">{{ t.text }}</span>
+
+            <form class="inline" action="{{ url_for('delete', task_id=loop.index0) }}" method="post">
+                <button class="danger" type="submit">削除</button>
+            </form>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+
+    <footer class="footer">Portfolio: Flask / Jinja / JSON保存</footer>
 </body>
-
-</html>
 
 </html>
