@@ -1,57 +1,33 @@
 # VTuber Task Manager
 
-Flaskで作成したシンプルなタスク管理Webアプリです。
+Flaskで作成したシンプルなタスク管理Webアプリです。  
+配信・動画・SNS投稿など、VTuber活動のタスクをまとめて管理できます。
 
-## 🔧 使用技術
-- Python
-- Flask
+## デモ
+- 画面イメージ：`docs/demo.png`（スクショを置いて貼るのがおすすめ）
+
+## ✨ 主な機能
+- タスクの追加 / 編集 / 削除
+- 完了チェック（完了・未完了の切り替え）
+- JSONファイル（tasks.json）によるデータ保存
+
+## 使用技術
+- Python / Flask
+- Jinja2
 - HTML / CSS
 - JSON（データ永続化）
 - Git / GitHub
 
-## ✨ 主な機能
-- タスクの追加
-- 編集
-- 削除
-- 完了チェック
-- JSONによるデータ保存
-
-## 🚀 今後の改善予定
-- SQLite対応
-- ユーザー認証
-- 期限管理機能
-- UI改善
-
-## 📌 学習ポイント
-- Flaskのルーティング理解
-- POST/Redirect/Getパターン
-- テンプレートとstaticの仕組み
-- GitHub公開までの流れ
-# VTuber Task Manager
-
-VTuber向けタスク管理アプリです。  
-Flaskを使って作成されたシンプルなWebアプリで、タスクの追加・編集・完了・削除ができます。
-
-## 📌デモ
-http://127.0.0.1:5000/
- 
-## 🎯 主な機能
-
-- タスクの追加／削除
-- タスクの編集
-- 完了チェック（チェック済み表示）
-- 永続化(JSON保存)
-
-## 🛠 使用技術
-
-- Python
-- Flask
-- Jinja2
-- HTML / CSS
-
-## 🔧 セットアップ
-
-必要なライブラリをインストール：
-
+## セットアップ & 起動方法
 ```bash
-pip install flask
+git clone https://github.com/lvkfc1623-arch/vtuber-task-manager.git
+cd vtuber-task-manager
+
+python -m venv .venv
+# Windows
+.venv\Scripts\activate
+# macOS/Linux
+source .venv/bin/activate
+
+pip install -r requirements.txt
+flask run
