@@ -1,33 +1,32 @@
 # VTuber Task Manager
 
-Flaskで作成したシンプルなタスク管理Webアプリです。  
-配信・動画・SNS投稿など、VTuber活動のタスクをまとめて管理できます。
+配信・動画・SNS投稿などの運営タスクを、シンプルに登録・完了管理できるタスク管理アプリです。  
+Flask + Jinja + JSON永続化で作成しました。
 
-## デモ
+## Demo
+
 ![demo](docs/demo.png)
 
-## ✨ 主な機能
-- タスクの追加 / 編集 / 削除
-- 完了チェック（完了・未完了の切り替え）
-- JSONファイル（tasks.json）によるデータ保存
+## Features
 
-## 使用技術
-- Python / Flask
+- タスク追加（空入力は不可）
+- タスク完了 / 未完了の切り替え
+- タスク編集（編集ボタンを押した時だけ入力欄表示）
+- タスク削除
+- JSONファイル（tasks.json）への保存（永続化）
+
+## Tech Stack
+
+- Python 3.9.x
+- Flask
 - Jinja2
 - HTML / CSS
-- JSON（データ永続化）
-- Git / GitHub
+- JSON（ファイル保存）
 
-## セットアップ & 起動方法
+## Setup
+
+### 1) Clone
+
 ```bash
 git clone https://github.com/lvkfc1623-arch/vtuber-task-manager.git
 cd vtuber-task-manager
-
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# macOS/Linux
-source .venv/bin/activate
-
-pip install -r requirements.txt
-flask run
