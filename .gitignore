@@ -1,8 +1,12 @@
+# Python
 __pycache__/
 *.pyc
+
+# Virtualenv
+.venv/
 venv/
 .env
-tasks.json
-.venv/
-__pycache__/
-*.pyc
+
+# OS / Editor
+.DS_Store
+.vscode/
