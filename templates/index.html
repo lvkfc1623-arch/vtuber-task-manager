@@ -30,14 +30,30 @@
 
             <span class="text">{{ t.text }}</span>
 
-            <form class="inline edit" action="{{ url_for('edit', task_id=loop.index0) }}" method="post">
-                <input name="task" value="{{ t.text }}" maxlength="80" />
-                <button type="submit">保存</button>
+        <li class="task">
+            <form class="inline" action="{{ url_for('toggle', task_id=loop.index0) }}" method="post">
+                <button class="btn icon" type="submit" title="完了/未完了">⬜</button>
+            </form>
+
+            <span class="text">{{ t.text }}</span>
+
+            <!-- ▼ 編集モード切り替え（JSなし） -->
+            <input type="checkbox" id="edit-{{ loop.index0 }}" class="edit-toggle">
+            <label class="btn" for="edit-{{ loop.index0 }}">編集</label>
+
+            <form class="inline edit-form" action="{{ url_for('edit', task_id=loop.index0) }}" method="post">
+                <input class="edit-input" name="task" value="{{ t.text }}" maxlength="80" />
+                <button class="btn primary" type="submit">保存</button>
             </form>
 
             <form class="inline" action="{{ url_for('delete', task_id=loop.index0) }}" method="post">
-                <button class="danger" type="submit">削除</button>
+                <button class="btn danger" type="submit">削除</button>
             </form>
+        </li>
+
+        <form class="inline" action="{{ url_for('delete', task_id=loop.index0) }}" method="post">
+            <button class="danger" type="submit">削除</button>
+        </form>
         </li>
         {% endif %}
         {% endfor %}

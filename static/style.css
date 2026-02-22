@@ -1,47 +1,252 @@
+:root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --primary: #2563eb;
+    --danger: #ef4444;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: sans-serif;
-    background: #f4f6f8;
-    padding: 40px;
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
 }
 
-h1 {
-    color: #4a90e2;
+.container {
+    max-width: 860px;
+    margin: 40px auto;
+    padding: 0 16px;
 }
 
-form {
-    margin-bottom: 20px;
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: .2px;
 }
 
-input {
-    padding: 8px;
-    width: 250px;
+.sub {
+    margin: 8px 0 0;
+    color: var(--muted);
 }
 
-button {
+.card {
+    margin-top: 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .05);
+}
+
+.add-form {
+    display: flex;
+    gap: 10px;
+}
+
+.input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+}
+
+.input:focus {
+    border-color: rgba(37, 99, 235, .6);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.count {
+    color: var(--muted);
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+}
+
+.item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.edit-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.edit {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+}
+
+.edit:focus {
+    border-color: rgba(37, 99, 235, .6);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
+}
+
+.btn {
     padding: 8px 12px;
-    background: #4a90e2;
-    color: white;
-    border: none;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #fff;
     cursor: pointer;
 }
 
-button:hover {
-    background: #357abd;
+.btn:hover {
+    background: #f9fafb;
 }
 
-li {
-    background: white;
-    margin-bottom: 8px;
-    padding: 8px;
-    border-radius: 5px;
+.btn.primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
 }
 
-.done {
+.btn.primary:hover {
+    filter: brightness(.95);
+}
+
+.btn.danger {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: white;
+}
+
+.btn.danger:hover {
+    filter: brightness(.95);
+}
+
+.btn.ghost {
+    background: transparent;
+    border-color: transparent;
+    font-size: 18px;
+    padding: 6px 8px;
+}
+
+.done .edit {
     text-decoration: line-through;
-    opacity: 0.5;
+    opacity: .65;
 }
 
-.done input {
-    text-decoration: line-through;
-    opacity: 0.6;
+.footer {
+    margin: 18px 4px 0;
+    color: var(--muted);
+}
+
+/* --- Buttons / Inline layout --- */
+.task {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    margin: 10px 0;
+}
+
+.inline {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+}
+
+.btn {
+    appearance: none;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.25);
+    outline-offset: 2px;
+}
+
+.btn.primary {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.btn.danger {
+    background: rgba(255, 0, 0, 0.12);
+    border-color: rgba(255, 0, 0, 0.25);
+}
+
+.btn.icon {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text {
+    flex: 1;
+    min-width: 140px;
+}
+
+/* --- Edit toggle (no JS) --- */
+.edit-toggle {
+    display: none;
+}
+
+.edit-form {
+    display: none;
+    gap: 8px;
+}
+
+.edit-input {
+    width: 260px;
+    max-width: 40vw;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(0, 0, 0, 0.15);
+}
+
+/* 編集ONの時だけ編集フォーム表示＆元テキストは隠す */
+.edit-toggle:checked~.edit-form {
+    display: inline-flex;
+}
+
+.edit-toggle:checked~.text {
+    display: none;
 }
