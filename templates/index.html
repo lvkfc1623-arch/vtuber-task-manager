@@ -9,65 +9,67 @@
 </head>
 
 <body>
-    <h1>VTuber Task Manager</h1>
-    <p class="subtitle">配信・動画・SNS投稿などの運営タスクをまとめて管理</p>
+    <div class="container">
+        <h1>VTuber Task Manager</h1>
+        <p class="subtitle">配信・動画・SNS投稿などの運営タスクをまとめて管理</p>
 
-    <form class="add-form" action="{{ url_for('add') }}" method="post">
-        <input name="task" placeholder="タスクを入力" required maxlength="80" />
-        <button type="submit">追加</button>
-    </form>
+        <form class="add-form" action="{{ url_for('add') }}" method="post">
+            <input name="task" placeholder="タスクを入力" required maxlength="80" />
+            <button type="submit">追加</button>
+        </form>
 
-    <p class="count">タスク数：{{ tasks|length }}</p>
+        <p class="count">タスク数：{{ tasks|length }}</p>
 
-    <h2>未完了</h2>
-    <ul class="task-list">
-        {% for t in tasks %}
-        {% if not t.done %}
-        <li class="task">
-            <form class="inline" action="{{ url_for('toggle', task_id=loop.index0) }}" method="post">
-                <button class="btn icon" type="submit" title="完了/未完了">⬜</button>
-            </form>
+        <h2>未完了</h2>
+        <ul class="task-list">
+            {% for t in tasks %}
+            {% if not t.done %}
+            <li class="task">
+                <form class="inline" action="{{ url_for('toggle', task_id=loop.index0) }}" method="post">
+                    <button class="btn icon" type="submit" title="完了/未完了">⬜</button>
+                </form>
 
-            <span class="text">{{ t.text }}</span>
+                <span class="text">{{ t.text }}</span>
 
-            <!-- 編集トグル（JSなし） -->
-            <input type="checkbox" id="edit-{{ loop.index0 }}" class="edit-toggle">
-            <label class="btn" for="edit-{{ loop.index0 }}">編集</label>
+                <!-- 編集トグル（JSなし） -->
+                <input type="checkbox" id="edit-{{ loop.index0 }}" class="edit-toggle">
+                <label class="btn" for="edit-{{ loop.index0 }}">編集</label>
 
-            <!-- 編集フォーム：普段は非表示 -->
-            <form class="inline edit-form" action="{{ url_for('edit', task_id=loop.index0) }}" method="post">
-                <input class="edit-input" name="task" value="{{ t.text }}" maxlength="80" />
-                <button class="btn primary" type="submit">保存</button>
-            </form>
+                <!-- 編集フォーム：普段は非表示 -->
+                <form class="inline edit-form" action="{{ url_for('edit', task_id=loop.index0) }}" method="post">
+                    <input class="edit-input" name="task" value="{{ t.text }}" maxlength="80" />
+                    <button class="btn primary" type="submit">保存</button>
+                </form>
 
-            <form class="inline" action="{{ url_for('delete', task_id=loop.index0) }}" method="post">
-                <button class="btn danger" type="submit">削除</button>
-            </form>
-        </li>
-        {% endif %}
-        {% endfor %}
-    </ul>
+                <form class="inline" action="{{ url_for('delete', task_id=loop.index0) }}" method="post">
+                    <button class="btn danger" type="submit">削除</button>
+                </form>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
 
-    <h2>完了</h2>
-    <ul class="task-list">
-        {% for t in tasks %}
-        {% if t.done %}
-        <li class="task done">
-            <form class="inline" action="{{ url_for('toggle', task_id=loop.index0) }}" method="post">
-                <button class="btn icon" type="submit" title="完了/未完了">✅</button>
-            </form>
+        <h2>完了</h2>
+        <ul class="task-list">
+            {% for t in tasks %}
+            {% if t.done %}
+            <li class="task done">
+                <form class="inline" action="{{ url_for('toggle', task_id=loop.index0) }}" method="post">
+                    <button class="btn icon" type="submit" title="完了/未完了">✅</button>
+                </form>
 
-            <span class="text">{{ t.text }}</span>
+                <span class="text">{{ t.text }}</span>
 
-            <form class="inline" action="{{ url_for('delete', task_id=loop.index0) }}" method="post">
-                <button class="btn danger" type="submit">削除</button>
-            </form>
-        </li>
-        {% endif %}
-        {% endfor %}
-    </ul>
+                <form class="inline" action="{{ url_for('delete', task_id=loop.index0) }}" method="post">
+                    <button class="btn danger" type="submit">削除</button>
+                </form>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
 
-    <footer class="footer">Portfolio: Flask / Jinja / JSON保存</footer>
+        <footer class="footer">Portfolio: Flask / Jinja / JSON保存</footer>
+    </div>
 </body>
 
 </html>

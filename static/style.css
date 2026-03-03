@@ -19,38 +19,30 @@ body {
     color: var(--text);
 }
 
+/* もしcontainerをHTMLで使ってないなら、後で使うために残してOK */
 .container {
     max-width: 860px;
     margin: 40px auto;
     padding: 0 16px;
 }
 
-.header h1 {
-    margin: 0;
-    font-size: 28px;
-    letter-spacing: .2px;
+h1 {
+    margin: 24px 0 0;
 }
 
+.subtitle,
 .sub {
-    margin: 8px 0 0;
     color: var(--muted);
 }
 
-.card {
-    margin-top: 18px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, .05);
-}
-
+/* add form */
 .add-form {
     display: flex;
     gap: 10px;
+    margin: 12px 0 10px;
 }
 
-.input {
+.add-form input {
     flex: 1;
     padding: 10px 12px;
     border: 1px solid var(--border);
@@ -58,23 +50,29 @@ body {
     outline: none;
 }
 
-.input:focus {
+.add-form input:focus {
     border-color: rgba(37, 99, 235, .6);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
 }
 
-.toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+.add-form button {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+}
+
+.add-form button:hover {
+    background: #f9fafb;
 }
 
 .count {
     color: var(--muted);
 }
 
-.list {
+/* list */
+.task-list {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -82,39 +80,45 @@ body {
     gap: 10px;
 }
 
-.item {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 10px;
-    align-items: center;
-    padding: 10px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-}
-
-.edit-form {
+/* row */
+.task {
     display: flex;
-    gap: 8px;
     align-items: center;
-}
-
-.edit {
-    width: 100%;
-    padding: 8px 10px;
+    gap: 12px;
+    padding: 12px 14px;
     border: 1px solid var(--border);
-    border-radius: 10px;
-    outline: none;
+    border-radius: 14px;
+    background: var(--card);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .05);
 }
 
-.edit:focus {
-    border-color: rgba(37, 99, 235, .6);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
+.task.done {
+    opacity: .75;
 }
 
+.task.done .text {
+    text-decoration: line-through;
+}
+
+/* left icon button */
+.inline {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+}
+
+.text {
+    flex: 1;
+    min-width: 180px;
+    font-size: 15px;
+}
+
+/* buttons */
 .btn {
-    padding: 8px 12px;
-    border-radius: 10px;
     border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 13px;
     background: #fff;
     cursor: pointer;
 }
@@ -123,10 +127,24 @@ body {
     background: #f9fafb;
 }
 
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn.icon {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
 .btn.primary {
     background: var(--primary);
     border-color: var(--primary);
-    color: white;
+    color: #fff;
 }
 
 .btn.primary:hover {
@@ -134,96 +152,16 @@ body {
 }
 
 .btn.danger {
-    background: var(--danger);
-    border-color: var(--danger);
-    color: white;
+    background: #ffecec;
+    border-color: #ffb5b5;
+    color: #b91c1c;
 }
 
 .btn.danger:hover {
-    filter: brightness(.95);
+    filter: brightness(.98);
 }
 
-.btn.ghost {
-    background: transparent;
-    border-color: transparent;
-    font-size: 18px;
-    padding: 6px 8px;
-}
-
-.done .edit {
-    text-decoration: line-through;
-    opacity: .65;
-}
-
-.footer {
-    margin: 18px 4px 0;
-    color: var(--muted);
-}
-
-/* --- Buttons / Inline layout --- */
-.task {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    margin: 10px 0;
-}
-
-.inline {
-    display: inline-flex;
-    align-items: center;
-    margin: 0;
-}
-
-.btn {
-    appearance: none;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 10px;
-    padding: 8px 10px;
-    font-size: 14px;
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.06);
-}
-
-.btn:hover {
-    background: rgba(255, 255, 255, 0.12);
-}
-
-.btn:active {
-    transform: translateY(1px);
-}
-
-.btn:focus {
-    outline: 2px solid rgba(255, 255, 255, 0.25);
-    outline-offset: 2px;
-}
-
-.btn.primary {
-    background: rgba(255, 255, 255, 0.16);
-}
-
-.btn.danger {
-    background: rgba(255, 0, 0, 0.12);
-    border-color: rgba(255, 0, 0, 0.25);
-}
-
-.btn.icon {
-    width: 38px;
-    height: 38px;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.text {
-    flex: 1;
-    min-width: 140px;
-}
-
-/* --- Edit toggle (no JS) --- */
+/* edit toggle (no JS) */
 .edit-toggle {
     display: none;
 }
@@ -231,22 +169,50 @@ body {
 .edit-form {
     display: none;
     gap: 8px;
+    align-items: center;
 }
 
 .edit-input {
     width: 260px;
     max-width: 40vw;
     padding: 8px 10px;
+    border: 1px solid var(--border);
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(0, 0, 0, 0.15);
+    outline: none;
 }
 
-/* 編集ONの時だけ編集フォーム表示＆元テキストは隠す */
-.edit-toggle:checked~.edit-form {
+.edit-input:focus {
+    border-color: rgba(37, 99, 235, .6);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
+}
+
+/* checkbox → label → form の並び前提 */
+.edit-toggle:checked+label+.edit-form {
     display: inline-flex;
 }
 
+/* 編集中は元のテキストを隠す（好みでOK） */
 .edit-toggle:checked~.text {
     display: none;
+}
+
+.footer {
+    margin: 18px 4px 0;
+    color: var(--muted);
+}
+
+.task {
+    justify-content: flex-start;
+}
+
+.task form.inline:last-of-type {
+    margin-left: 8px;
+}
+
+.task .btn.danger {
+    margin-left: 6px;
+}
+
+.btn:not(.danger):not(.primary) {
+    background: #f8fafc;
 }
